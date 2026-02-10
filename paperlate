@@ -1,0 +1,120 @@
+-- Base de datos PAPERLATE
+-- Trabajo Practico Coderhouse
+-- Autor: Agustin Muñoz
+
+CREATE DATABASE IF NOT EXISTS paperlate;
+USE paperlate;
+
+CREATE TABLE IF NOT EXISTS empleado (
+    id_empleado INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    dni VARCHAR(20) UNIQUE NOT NULL,
+    telefono VARCHAR(20),
+    email VARCHAR(100),
+    cargo VARCHAR(50)
+);
+
+CREATE TABLE IF NOT EXISTS cliente (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    telefono VARCHAR(20),
+    email VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS producto (
+    id_producto INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    categoria VARCHAR(50),
+    precio DECIMAL(10,2) NOT NULL,
+    stock INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS venta (
+    id_venta INT AUTO_INCREMENT PRIMARY KEY,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    total DECIMAL(10,2) NOT NULL,
+    id_cliente INT NOT NULL,
+    id_empleado INT NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
+    FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
+);
+
+CREATE TABLE IF NOT EXISTS proveedor (
+    id_proveedor INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    telefono VARCHAR(20),
+    email VARCHAR(100)
+);
+
+
+CREATE TABLE IF NOT EXISTS detalle_venta (
+    id_detalle INT AUTO_INCREMENT PRIMARY KEY,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    id_venta INT NOT NULL,
+    id_producto INT NOT NULL,
+    FOREIGN KEY (id_venta) REFERENCES venta(id_venta),
+    FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
+);
+
+INSERT INTO empleado (nombre, apellido, dni, telefono, email, cargo)
+VALUES
+('agustin', 'muñoz', '39506544','1165394970', 'agustinmuñoz@hotmail.com', 'vendedor'),
+('antonela', 'cipolla', '35439342','1194388476', 'antonelacipolla@hotmail.com', 'encargada'),
+('franco', 'cipolla', '40923932', '1163762961', 'francocipoll@hotmail.com', 'vendedor'),
+('renata', 'cipolla', '43954210', '1154295812', 'renatacipolla@hotmail.com', 'cajera');
+
+INSERT INTO cliente (nombre, apellido, telefono, email)
+VALUES
+('juan', 'perez', '1122334455', 'juan.perez@gmail.com'),
+('maria', 'lopez', '1133445566', 'maria.lopez@gmail.com'),
+('lucas', 'fernandez', '1144556677', 'lucas.fernandez@gmail.com'),
+('julio', 'rodriguez', '1155667788', 'julio.rodriguez@gmail.com'),
+('sofia', 'martinez', '1166778899', 'sofia.martinez@gmail.com'),
+('pedro', 'gonzalez', '1177889900', 'pedro.gonzalez@gmail.com'),
+('laura', 'diaz', '1188990011', 'laura.diaz@gmail.com'),
+('martin', 'suarez', '1199001122', 'martin.suarez@gmail.com'),
+('valentina', 'romero', '1100112233', 'valentina.romero@gmail.com'),
+('nicolas', 'herrera', '1111223344', 'nicolas.herrera@gmail.com'),
+('florencia', 'castro', '1122334466', 'florencia.castro@gmail.com');
+
+INSERT INTO producto (nombre, categoria, precio, stock)
+VALUES
+('lapiz negro hb', 'utiles', 900.00, 200),
+('lapiz de color x12', 'utiles', 6200.00, 80),
+('birome azul', 'utiles', 1200.00, 150),
+('cuaderno rayado a4', 'utiles', 3500.00, 60),
+('cuaderno cuadriculado a4', 'utiles', 3800.00, 55),
+('goma de borrar', 'utiles', 700.00, 120),
+('sacapuntas metalico', 'utiles', 1600.00, 70),
+('pegamento en barra', 'utiles', 1900.00, 40),
+('resaltador amarillo', 'utiles', 2300.00, 50),
+('regla 30cm', 'utiles', 1400.00, 90),
+('fibras x10', 'utiles', 8500.00, 30),
+('corrector liquido', 'utiles', 3200.00, 45),
+('tijera escolar', 'utiles', 5200.00, 20),
+('block hojas blancas a4', 'utiles', 6500.00, 50),
+('carpeta escolar', 'utiles', 9800.00, 35),
+('mochila escolar', 'mochilas', 65000.00, 15),
+('cartuchera', 'mochilas', 22000.00, 25),
+('cuaderno universitario', 'utiles', 7200.00, 40),
+('agenda escolar', 'utiles', 6800.00, 30),
+('marcador al agua x6', 'utiles', 5400.00, 35),
+('marcador al agua x12', 'utiles', 9800.00, 20),
+('lapicera gel negra', 'utiles', 2200.00, 60),
+('lapicera gel azul', 'utiles', 2200.00, 55),
+('post-it 76x76', 'utiles', 3600.00, 45),
+('post-it colores', 'utiles', 4200.00, 40),
+('calculadora basica', 'utiles', 18500.00, 15),
+('perforadora', 'utiles', 12500.00, 18),
+('cinta adhesiva', 'utiles', 2600.00, 50),
+('cinta doble faz', 'utiles', 4800.00, 25),
+('plastilina x10', 'utiles', 5100.00, 30),
+('papel afiche', 'utiles', 1500.00, 80),
+('papel glace x10', 'utiles', 2100.00, 70);
+ 
+INSERT INTO proveedor (nombre, telefono, email)
+VALUES
+('distribuidora ale', '1144556677', 'distribuidoraale@hotmail.com.com');
